@@ -3,6 +3,7 @@ const request = require("request");
 const config = require('./config');
 const password = config.O_AUTH;
 const clientID = config.CLIENT_ID;
+const channels = config.channels
 
 // Define configuration options
 const opts = {
@@ -10,10 +11,7 @@ const opts = {
         username: "Snowbottos",
         password: password
     },
-    channels: [
-        "snowman",
-        "snowbottos"
-    ]
+    channels: channels
 };
 
 // Create a client with Twitch options
