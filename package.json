@@ -1,0 +1,17 @@
+{
+  "name": "Snowbottos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Miles Bradt",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0",
+    "tmi.js": "^1.4.2"
+  }
+}
