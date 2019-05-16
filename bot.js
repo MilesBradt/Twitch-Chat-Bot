@@ -82,7 +82,8 @@ function rollRow () {
 
 // Posts to user's chat
 function postBIGFROG(userName) {
-    client.say(userName, "BIGFROG")
+    console.log("a BIGFROG was posted in", userName);
+    client.say(userName, "BIGFROG");
 }
 
 function bingoRowChooser(num, userName) {
