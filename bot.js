@@ -42,7 +42,7 @@ function checkStreamerOnlineStatusToPostBIGFROG(userName) {
 function postTimer() {
     // Use for faster testing
     // Math.floor(Math.random() * (5000 - 1000)) + 1000; 
-    let randomNumber = Math.floor(Math.random() * (180000000 - 900000)) + 900000; 
+    let randomNumber = Math.floor(Math.random() * (1800000 - 90000)) + 90000; 
     let users = opts.channels
     setTimeout(function () {
         console.log(users)
