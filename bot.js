@@ -3,7 +3,8 @@ const request = require("request");
 const config = require('./config');
 const password = config.O_AUTH;
 const clientID = config.CLIENT_ID;
-const channels = config.channels
+const channels = config.channels;
+const channelsWithoutEmotes = config.channelsNoEmotes;
 
 // Define configuration options
 const opts = {
@@ -26,10 +27,13 @@ client.connect();
 
 // Checks if user is online before posting emotes
 function checkStreamerOnlineStatusToPostBIGFROG(userName) {
+    let noEmoteUsers = channelsWithoutEmotes
     const url = 'https://api.twitch.tv/kraken/streams/' + userName + '?client_id=' + clientID
     request.get(url, (error, response, body) => {
         json = JSON.parse(body);
-        if (json.stream === null) {
+        if (noEmoteUsers.includes(userName)) {
+            return console.log(userName, "does not want BIGFROG")
+        } else if (json.stream === null) {
             return console.log(userName, "is not live")
         } else {
             postBIGFROG(userName)
@@ -42,7 +46,7 @@ function checkStreamerOnlineStatusToPostBIGFROG(userName) {
 function postTimer() {
     // Use for faster testing
     // Math.floor(Math.random() * (5000 - 1000)) + 1000; 
-    let randomNumber = Math.floor(Math.random() * (1800000 - 900000)) + 900000; 
+    let randomNumber = Math.floor(Math.random() * (5000 - 1000)) + 1000; //Math.floor(Math.random() * (1800000 - 900000)) + 900000; 
     let users = opts.channels
     setTimeout(function () {
         console.log(users)
@@ -84,12 +88,12 @@ function rollRow () {
     // Get a random number from predefined set
     randNum = getRndmFromSet(set);
 
-    // Get another random number if number was the last chosen number in the set 
+    // Get another random number if number was the last chosen number in the set
     while (previousNum == randNum) {
         randNum = getRndmFromSet(set);
     }
 
-    // record the previously chosen number
+    // Record the previously chosen number
     previousNum = randNum;
 
     arrayElementIndex = set.indexOf(randNum)
@@ -97,11 +101,11 @@ function rollRow () {
     if (set.length > 0) {
         set.splice(arrayElementIndex, 1);
     } else {
-        // Reset the set          
+        // Reset the set
         set = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         randNum = getRndmFromSet(set);
 
-        // Get another random number if number was the last chosen number in the set before reset 
+        // Get another random number if number was the last chosen number in the set before reset
         while (previousNum == randNum) {
             randNum = getRndmFromSet(set);
         }
@@ -119,7 +123,6 @@ function rollRow () {
     return randNum;
 }
 
-
 // Posts to user's chat
 function postBIGFROG(userName) {
     console.log("a BIGFROG was posted in", userName);
@@ -127,7 +130,7 @@ function postBIGFROG(userName) {
 }
 
 function bingoRowChooser(num, userName) {
-    const bingoBoard = ["Col1", "Col2", "Col3", "Col4", "Col5", "TL-BR", "Row1", "Row2", "Row3", "Row4", "Row5", "BL-TR"]
+    const bingoBoard = ["Col1", "Col2", "Col3", "Col4", "Col5", "Row1", "Row2", "Row3", "Row4", "Row5", "TL-BR", "BL-TR"]
     client.say(userName, bingoBoard[num]);
 }
 
