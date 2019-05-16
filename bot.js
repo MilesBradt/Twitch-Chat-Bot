@@ -76,8 +76,7 @@ function onMessageHandler(target, context, msg, self) {
 
 // RNG 1 through 12 to decided bingo row
 function rollRow () {
-    const rows = 12;
-    return Math.floor(Math.random() * rows) + 1;
+    return Math.floor(Math.random() * (11 - 0)) + 0;
 }
 
 // Posts to user's chat
@@ -87,31 +86,9 @@ function postBIGFROG(userName) {
 }
 
 function bingoRowChooser(num, userName) {
-    if (num === 1) {
-        client.say(userName, `Col1`);
-    } else if (num === 2) {
-        client.say(userName, `Col2`);
-    } else if (num === 3) {
-        client.say(userName, `Col3`);
-    } else if (num === 4) {
-        client.say(userName, `Col4`);
-    } else if (num === 5) {
-        client.say(userName, `Col5`);
-    } else if (num === 6) {
-        client.say(userName, `TL-BR`);
-    } else if (num === 7) {
-        client.say(userName, `Row1`);
-    } else if (num === 8) {
-        client.say(userName, `Row2`);
-    } else if (num === 9) {
-        client.say(userName, `Row3`);
-    } else if (num === 10) {
-        client.say(userName, `Row4`);
-    } else if (num === 11) {
-        client.say(userName, `Row5`);
-    } else if (num === 12) {
-        client.say(userName, `BL-TR`);
-    }
+    console.log(num)
+    const bingoBoard = ["Col1", "Col2", "Col3", "Col4", "Col5", "TL-BR", "Row1", "Row2", "Row3", "Row4", "Row5", "BL-TR"]
+    client.say(userName, bingoBoard[num]);
 }
 
 // Called every time the bot connects to Twitch chat
