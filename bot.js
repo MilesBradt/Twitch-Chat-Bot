@@ -74,10 +74,51 @@ function onMessageHandler(target, context, msg, self) {
     }
 }
 
-// RNG 1 through 12 to decided bingo row
+// RNG 0 through 11 to decided bingo row without repeating
 function rollRow () {
-    return Math.floor(Math.random() * (11 - 0)) + 0;
+    let set = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    let previousNum;
+    let randNum;
+    let arrayElementIndex;
+
+    // Get a random number from predefined set
+    randNum = getRndmFromSet(set);
+
+    // Get another random number if number was the last chosen number in the set 
+    while (previousNum == randNum) {
+        randNum = getRndmFromSet(set);
+    }
+
+    // record the previously chosen number
+    previousNum = randNum;
+
+    arrayElementIndex = set.indexOf(randNum)
+
+    if (set.length > 0) {
+        set.splice(arrayElementIndex, 1);
+    } else {
+        // Reset the set          
+        set = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        randNum = getRndmFromSet(set);
+
+        // Get another random number if number was the last chosen number in the set before reset 
+        while (previousNum == randNum) {
+            randNum = getRndmFromSet(set);
+        }
+
+        previousNum = randNum;
+        arrayElementIndex = set.indexOf(randNum)
+        set.splice(arrayElementIndex, 1);
+    }
+
+    function getRndmFromSet(set) {
+           var rndm = Math.floor(Math.random() * set.length);
+        return set[rndm];
+    }
+
+    return randNum;
 }
+
 
 // Posts to user's chat
 function postBIGFROG(userName) {
@@ -86,7 +127,6 @@ function postBIGFROG(userName) {
 }
 
 function bingoRowChooser(num, userName) {
-    console.log(num)
     const bingoBoard = ["Col1", "Col2", "Col3", "Col4", "Col5", "TL-BR", "Row1", "Row2", "Row3", "Row4", "Row5", "BL-TR"]
     client.say(userName, bingoBoard[num]);
 }
