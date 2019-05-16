@@ -26,33 +26,54 @@ client.on('connected', onConnectedHandler);
 // Connect to Twitch:
 client.connect();
 
-function getTwitchOnlineStatus(userName) {
+// Checks if user is online before posting emotes
+function checkStreamerOnlineStatusToPostBIGFROG(userName) {
     const url = 'https://api.twitch.tv/kraken/streams/' + userName + '?client_id=' + clientID
     request.get(url, (error, response, body) => {
         json = JSON.parse(body);
         if (json.stream === null) {
             return console.log(userName, "is not live")
         } else {
-            client.say(userName, "BIGFROG")
+            postBIGFROG(userName)
             return console.log(userName, "is ", json.stream.stream_type)
         }
     })
 }
 
-// Posts BIGFROG randomly between 30 to 15 minutes
-// Math.floor(Math.random() * (180000000 - 900000)) + 900000;
-// Math.floor(Math.random() * (5000 - 1000)) + 1000;
-function frogTime() {
-    let randomNumber = Math.floor(Math.random() * (180000000 - 900000)) + 900000;
+// Posts something randomly between 30 to 15 minutes
+function postTimer() {
+    // Use for faster testing
+    // Math.floor(Math.random() * (5000 - 1000)) + 1000; 
+    let randomNumber = Math.floor(Math.random() * (180000000 - 900000)) + 900000; 
     let users = opts.channels
     setTimeout(function () {
         console.log(users)
         users.forEach(function (user) {
             let cleanUserName = user.slice(1)
-            getTwitchOnlineStatus(cleanUserName)
+            checkStreamerOnlineStatusToPostBIGFROG(cleanUserName)
         })
-    frogTime();
+        postTimer();
     }, randomNumber);
+}
+
+// Called every time a message comes in
+function onMessageHandler(target, context, msg, self) {
+    // Ignore messages from the bot
+    if (self) { return; } 
+    
+    // Remove whitespace from chat message
+    const commandName = msg.trim();
+    
+    // BIGFROG
+    if (commandName === 'BIGFROG') {
+        postBIGFROG(target)
+    }
+    
+    // Chooses bingo row
+    if (commandName === '!bingo' || commandName === '!row' || commandName === '!col') {
+        const num = rollRow();
+        bingoRowChooser(num, target)
+    }
 }
 
 // RNG 1 through 12 to decided bingo row
@@ -61,55 +82,41 @@ function rollRow () {
     return Math.floor(Math.random() * rows) + 1;
 }
 
-// Called every time a message comes in
-function onMessageHandler(target, context, msg, self) {
-    // Ignore messages from the bot
-    if (self) { return; } 
+// Posts to user's chat
+function postBIGFROG(userName) {
+    client.say(userName, "BIGFROG")
+}
 
-    let cleanUserName = target.slice(1)
-
-    // Remove whitespace from chat message
-    const commandName = msg.trim();
-
-
-    // BIGFROG
-    if (commandName === 'BIGFROG') {
-        client.say(target, `BIGFROG`);
-        }
-    
-    // Chooses bingo row
-    if (commandName === '!bingo') {
-        const num = rollRow();
-        if (num === 1) {
-            client.say(target, `Col1`);
-        } else if (num === 2) {
-            client.say(target, `Col2`);
-        } else if (num === 3) {
-            client.say(target, `Col3`);
-        } else if (num === 4) {
-            client.say(target, `Col4`);
-        } else if (num === 5) {
-            client.say(target, `Col5`);
-        } else if (num === 6) {
-            client.say(target, `TL-BR`);
-        } else if (num === 7) {
-            client.say(target, `Row1`);
-        } else if (num === 8) {
-            client.say(target, `Row2`);
-        } else if (num === 9) {
-            client.say(target, `Row3`);
-        } else if (num === 10) {
-            client.say(target, `Row4`);
-        } else if (num === 11) {
-            client.say(target, `Row5`);
-        } else if (num === 12) {
-            client.say(target, `BL-TR`);
-        }
+function bingoRowChooser(num, userName) {
+    if (num === 1) {
+        client.say(userName, `Col1`);
+    } else if (num === 2) {
+        client.say(userName, `Col2`);
+    } else if (num === 3) {
+        client.say(userName, `Col3`);
+    } else if (num === 4) {
+        client.say(userName, `Col4`);
+    } else if (num === 5) {
+        client.say(userName, `Col5`);
+    } else if (num === 6) {
+        client.say(userName, `TL-BR`);
+    } else if (num === 7) {
+        client.say(userName, `Row1`);
+    } else if (num === 8) {
+        client.say(userName, `Row2`);
+    } else if (num === 9) {
+        client.say(userName, `Row3`);
+    } else if (num === 10) {
+        client.say(userName, `Row4`);
+    } else if (num === 11) {
+        client.say(userName, `Row5`);
+    } else if (num === 12) {
+        client.say(userName, `BL-TR`);
     }
 }
 
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
     console.log(`* Connected to ${addr}:${port}`);
-    frogTime();
+    postTimer();
 }
