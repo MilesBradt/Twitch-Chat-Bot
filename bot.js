@@ -4,7 +4,9 @@ const config = require('./config');
 const password = config.O_AUTH;
 const clientID = config.CLIENT_ID;
 const channels = config.channels;
+const channelsWhoHaveBIGFROG = config.channelsWithBIGFROG;
 const channelsWithoutEmotes = config.channelsNoEmotes;
+const channelsWithDifferentEmotes = config.channelUniqueEmotes;
 
 // Define configuration options
 const opts = {
@@ -27,13 +29,10 @@ client.connect();
 
 // Checks if user is online before posting emotes
 function checkStreamerOnlineStatusToPostBIGFROG(userName) {
-    let noEmoteUsers = channelsWithoutEmotes
     const url = 'https://api.twitch.tv/kraken/streams/' + userName + '?client_id=' + clientID
     request.get(url, (error, response, body) => {
         json = JSON.parse(body);
-        if (noEmoteUsers.includes(userName)) {
-            return console.log(userName, "does not want BIGFROG")
-        } else if (json.stream === null) {
+        if (json.stream === null) {
             return console.log(userName, "is not live")
         } else {
             postBIGFROG(userName)
@@ -46,7 +45,7 @@ function checkStreamerOnlineStatusToPostBIGFROG(userName) {
 function postTimer() {
     // Use for faster testing
     // Math.floor(Math.random() * (5000 - 1000)) + 1000; 
-    let randomNumber = Math.floor(Math.random() * (5000 - 1000)) + 1000; //Math.floor(Math.random() * (1800000 - 900000)) + 900000; 
+    let randomNumber = Math.floor(Math.random() * (1800000 - 900000)) + 900000; 
     let users = opts.channels
     setTimeout(function () {
         console.log(users)
@@ -61,16 +60,26 @@ function postTimer() {
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
     // Ignore messages from the bot
-    if (self) { return; } 
-    
+    if (self) {
+        return;
+    }
+
     // Remove whitespace from chat message
     const commandName = msg.trim();
-    
+
     // BIGFROG
     if (commandName === 'BIGFROG') {
         postBIGFROG(target)
     }
-    
+
+    if (commandName === 'FigureFresh') {
+        client.say(target, "🍳ᕙ FigureFresh ᕗ");
+    }
+
+    if (commandName === 'BongoCat' || commandName === 'fifiPongu') {
+        client.say(target, "BongoCat");
+    }
+
     // Chooses bingo row
     if (commandName === '!bingo' || commandName === '!row' || commandName === '!col') {
         const num = rollRow();
@@ -79,7 +88,7 @@ function onMessageHandler(target, context, msg, self) {
 }
 
 // RNG 0 through 11 to decided bingo row without repeating
-function rollRow () {
+function rollRow() {
     let set = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     let previousNum;
     let randNum;
@@ -116,7 +125,7 @@ function rollRow () {
     }
 
     function getRndmFromSet(set) {
-           var rndm = Math.floor(Math.random() * set.length);
+        var rndm = Math.floor(Math.random() * set.length);
         return set[rndm];
     }
 
@@ -125,8 +134,15 @@ function rollRow () {
 
 // Posts to user's chat
 function postBIGFROG(userName) {
-    console.log("a BIGFROG was posted in", userName);
-    client.say(userName, "BIGFROG");
+    if (channelsWithoutEmotes.includes(userName)) {
+        return console.log(userName, "doesn't want emotes posted")
+    } else if (channelsWithDifferentEmotes.includes(userName)) {
+        client.say(userName, "BongoCat");
+        return console.log("BingoCat was posted in", userName)
+    } else if (channelsWhoHaveBIGFROG.includes(userName)) {
+        client.say(userName, "BIGFROG");
+        return console.log("BIGFROG was posted in", userName);
+    }
 }
 
 function bingoRowChooser(num, userName) {
