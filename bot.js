@@ -8,6 +8,7 @@ const channelsWhoHaveBIGFROG = config.channelsWithBIGFROG;
 const channelsWithoutEmotes = config.channelsNoEmotes;
 const channelsWithDifferentEmotes = config.channelUniqueEmotes;
 
+
 // Define configuration options
 const opts = {
     identity: {
@@ -29,10 +30,13 @@ client.connect();
 
 // Checks if user is online before posting emotes
 function checkStreamerOnlineStatusToPostBIGFROG(userName) {
+    let noEmoteUsers = channelsWithoutEmotes
     const url = 'https://api.twitch.tv/kraken/streams/' + userName + '?client_id=' + clientID
     request.get(url, (error, response, body) => {
         json = JSON.parse(body);
-        if (json.stream === null) {
+        if (noEmoteUsers.includes(userName)) {
+            return console.log(userName, "does not want BIGFROG")
+        } else if (json.stream === null) {
             return console.log(userName, "is not live")
         } else {
             postBIGFROG(userName)
@@ -59,6 +63,8 @@ function postTimer() {
 
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
+    let cleanTarget = target.slice(1)
+
     // Ignore messages from the bot
     if (self) {
         return;
@@ -67,24 +73,48 @@ function onMessageHandler(target, context, msg, self) {
     // Remove whitespace from chat message
     const commandName = msg.trim();
 
+
+    // Silly commands
     // BIGFROG
     if (commandName === 'BIGFROG') {
-        postBIGFROG(target)
+        client.say(target, "BIGFROG");
     }
 
+    //"╲⎝⧹╲⎝⧹ FigureFresh ⧸⎠╱⧸╱"
     if (commandName === 'FigureFresh') {
-        client.say(target, "🍳ᕙ FigureFresh ᕗ");
+        client.say(target, "FigureFresh");
+    }
+
+    if (commandName.toLowerCase() === 'hi cloud') {
+        client.say(target, "hi cloud");
     }
 
     if (commandName === 'BongoCat' || commandName === 'fifiPongu') {
         client.say(target, "BongoCat");
     }
 
-    // Chooses bingo row
+    // Bingo
     if (commandName === '!bingo' || commandName === '!row' || commandName === '!col') {
         const num = rollRow();
         bingoRowChooser(num, target)
     }
+
+    if (commandName === '!anti') {
+        client.say(target, "double anti-bingo is where one person chooses a row while the other chooses for them");
+    }
+
+    //Custom commands per channel
+
+    //Summerheroes
+    if (commandName === '!twitter' && cleanTarget === 'summerheroes') {
+        client.say(target, "https://twitter.com/thesummerheroes");
+    }
+
+    if (commandName === '!discord' && cleanTarget === 'summerheroes') {
+        client.say(target, "https://discord.gg/CU7wVgS");
+    }
+
+
 }
 
 // RNG 0 through 11 to decided bingo row without repeating
