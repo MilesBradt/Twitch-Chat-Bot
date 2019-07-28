@@ -7,9 +7,9 @@ This bot connects to specifict Twitch channels to do things like post custom com
 
 * Clone the application from github
 
-* Type 'npm install'
+* Get a client id and auth key to use [Twitch's API](https://dev.twitch.tv/docs/authentication/)
 
-* Create a file in the root folder called 'config.js' and add your Twitch users like in the [config example](https://github.com/MilesBradt/Twitch-Chat-Bot/blob/master/config-example.js)
+* Create a file in the root folder called 'config.js' and add your Twitch users and keys like in the [config example](https://github.com/MilesBradt/Twitch-Chat-Bot/blob/master/config-example.js)
 
 ![congif.js example](https://i.imgur.com/qxjptW6.png)
 
