@@ -40,7 +40,7 @@ function onMessageHandler(target, context, msg, self) {
 
     // Remove whitespace from chat message
     const commandName = msg.trim();
-    chatCommands.chatCommands(target, context, commandName, client, callAPI);
+    chatCommands.chatCommands(target, context, commandName, client);
 }
 
 // Called every time the bot connects to Twitch chat
