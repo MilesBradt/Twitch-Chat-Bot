@@ -9,7 +9,7 @@ This bot connects to specifict Twitch channels to do things like post custom com
 
 * Get a [client id and OAuth key](https://dev.twitch.tv/docs/authentication/) to use Twitch's API
 
-* Get [authorization code](https://dev.twitch.tv/docs/authentication/getting-tokens-oauth#oauth-client-credentials-flow), use [reqbin](https://reqbin.com/) for easier generation
+* Get [access token](https://dev.twitch.tv/docs/authentication/getting-tokens-oauth#oauth-client-credentials-flow), use [reqbin](https://reqbin.com/) for easier generation
 
 * Create a file in the root folder called 'config.js' and add your Twitch users and keys like in the [config example](https://github.com/MilesBradt/Twitch-Chat-Bot/blob/master/config-example.js)
 
