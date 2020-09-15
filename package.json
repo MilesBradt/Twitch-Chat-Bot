@@ -12,7 +12,7 @@
     "dotenv": "^8.0.0",
     "jquery": "^3.5.1",
     "jsdom": "^16.2.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.0",
     "tmi.js": "^1.5.0",
     "xmlhttprequest": "^1.8.0"

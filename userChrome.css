@@ -1,0 +1,40 @@
+/* Fixing back button in normal density */
+:root:not([uidensity=compact]) #back-button {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+:root:not([uidensity=compact]) #back-button > .toolbarbutton-icon {
+    background-color: unset !important;
+    border: none !important;
+}
+
+/* Remove extra space around tabs */
+.titlebar-spacer[type="pre-tabs"] {
+    width: 25px !important;
+}
+.titlebar-spacer[type="post-tabs"] {
+    width: 5px !important;
+}
+
+/* Remove tab list icon */
+#alltabs-button {
+  display: none !important;
+}
+
+
+/* OPTIONAL */
+/* Remove unnecessary identity-box content */
+#urlbar[pageproxystate="valid"] > #identity-box.verifiedDomain > #connection-icon,
+#urlbar[pageproxystate="valid"] > #identity-box.verifiedIdentity > #connection-icon,
+#urlbar[pageproxystate="valid"] > #identity-box.mixedActiveBlocked > #connection-icon,
+#urlbar[pageproxystate="valid"] > #identity-box.verifiedIdentity > #identity-icon-labels {
+  display: none !important;
+}
+#urlbar[pageproxystate=valid] > #identity-box.notSecureText,
+#urlbar[pageproxystate=valid] > #identity-box.verifiedIdentity,
+#urlbar[pageproxystate=valid] > #identity-box.chromeUI,
+#urlbar[pageproxystate=valid] > #identity-box.extensionPage,
+#urlbar-display-box {
+  border: none !important;
+  margin-right: 0 !important;
+}
