@@ -1,7 +1,7 @@
 function chatCommands(command, context, client, target, callAPI) {
     const API = require('./callAPI.js');
     const roll = require('./rollRow.js');
-    const whammo = require('./whammoBoard.js');
+    const whammo = require('../lists/whammoBoard.js');
 
     if (command === "!checkAPI") {
         const calledAPI = API.callAPI("https://api.twitch.tv/helix/users?login=" + context.username)
@@ -16,6 +16,11 @@ function chatCommands(command, context, client, target, callAPI) {
     if (command === "!test") {
         client.say(target, "test")
     }
+
+    if(command === "BIGFROG") {
+        client.say(target, "BIGFROG")
+    }
+
 }
 
 module.exports = { chatCommands };
