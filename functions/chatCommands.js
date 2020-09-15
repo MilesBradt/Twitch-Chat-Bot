@@ -1,4 +1,4 @@
-function chatCommands(command, context, client, target, callAPI) {
+function chatCommands(target, context, command, client, callAPI) {
     const API = require('./callAPI.js');
     const roll = require('./rollRow.js');
     const whammo = require('../lists/whammoBoard.js');

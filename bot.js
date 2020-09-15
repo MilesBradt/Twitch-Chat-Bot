@@ -6,6 +6,7 @@ const $ = require("jquery")(window);
 const config = require('./config');
 
 const chatCommands = require('./functions/chatCommands.js');
+const callAPI = require('./functions/callAPI');
 
 const password = config.O_AUTH;
 const channels = config.channels;
@@ -39,7 +40,7 @@ function onMessageHandler(target, context, msg, self) {
 
     // Remove whitespace from chat message
     const commandName = msg.trim();
-    const commandResult = chatCommands.chatCommands(commandName, context, client, target);
+    chatCommands.chatCommands(target, context, commandName, client, callAPI);
 }
 
 // Called every time the bot connects to Twitch chat
