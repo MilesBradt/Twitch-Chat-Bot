@@ -23,6 +23,7 @@ This bot connects to specifict Twitch channels to do things like post custom com
 
 ## Future plans
 
+* Use API to check is user is online before posting in chat
 * Randomly scramble messages from chat history, like it's trying to talk to the users
 * Have custom commands added or deleted from the users, not hard coded in from me
 
