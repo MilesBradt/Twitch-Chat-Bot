@@ -4,7 +4,8 @@ function chatCommands(command, context, client, target, callAPI) {
     const whammo = require('../lists/whammoBoard.js');
 
     if (command === "!checkAPI") {
-        const calledAPI = API.callAPI("https://api.twitch.tv/helix/users?login=" + context.username)
+        const cleanTarget = target.slice(1)
+        const calledAPI = API.callAPI("https://api.twitch.tv/helix/users?login=" + cleanTarget)
         console.log(calledAPI)
     }
 
@@ -14,7 +15,8 @@ function chatCommands(command, context, client, target, callAPI) {
     }
 
     if (command === "!test") {
-        client.say(target, "test")
+        // client.say(target, "test")
+        console.log(target)
     }
 
     if(command === "BIGFROG") {
