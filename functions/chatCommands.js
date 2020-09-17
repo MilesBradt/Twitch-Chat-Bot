@@ -25,7 +25,6 @@ function chatCommands(target, context, command, client) {
             if(checkIfOnline == "true") {
                 console.log(cleanTarget + " is online")
                 client.say(target, cleanTarget + " is online")
-                client.say(target, "BIGFROG")
             }
         })
     }
@@ -36,14 +35,13 @@ function chatCommands(target, context, command, client) {
     }
 
     if (command === "!test") {
-        // client.say(target, "test")
-        console.log(target)
+        client.say(target, "I'm here! FrankerZ")
+        console.log("posted in " + target + "'s chat")
     }
 
     if(command === "BIGFROG") {
         client.say(target, "BIGFROG")
     }
-
 }
 
 module.exports = { chatCommands };
