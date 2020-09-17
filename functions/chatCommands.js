@@ -5,8 +5,29 @@ function chatCommands(target, context, command, client) {
 
     if (command === "!checkAPI") {
         const cleanTarget = target.slice(1)
-        const calledAPI = API.callAPI("https://api.twitch.tv/helix/users?login=" + cleanTarget)
-        console.log(calledAPI)
+        const calledAPI = API.callAPI("https://api.twitch.tv/helix/search/channels?query=" + cleanTarget)
+        .then(calledAPI => {
+            const stringAPI = JSON.stringify(calledAPI.data[0])
+            console.log(stringAPI)
+        })
+    }
+
+    if (command === "!checkOnline") {
+        const cleanTarget = target.slice(1)
+        const calledAPI = API.callAPI("https://api.twitch.tv/helix/search/channels?query=" + cleanTarget)
+        .then(calledAPI => {
+            const checkIfOnline = JSON.stringify(calledAPI.data[0].is_live)
+            console.log(checkIfOnline)
+            if(checkIfOnline == "false") {
+                console.log(cleanTarget + " is offline")
+                client.say(target, cleanTarget + " is offline")
+            }
+            if(checkIfOnline == "true") {
+                console.log(cleanTarget + " is online")
+                client.say(target, cleanTarget + " is online")
+                client.say(target, "BIGFROG")
+            }
+        })
     }
 
     if (command === "!whammoRoll") {
