@@ -11,7 +11,6 @@ const callAPI = require('./functions/callAPI');
 const password = config.O_AUTH;
 const channels = config.channels;
 
-
 // Define configuration options
 const opts = {
     identity: {

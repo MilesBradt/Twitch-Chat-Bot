@@ -2,6 +2,7 @@ function chatCommands(target, context, command, client) {
     const API = require('./callAPI.js');
     const roll = require('./rollRow.js');
     const whammo = require('../lists/whammoBoard.js');
+    const asciiArt = require('../lists/asciiArt.js')
 
     if (command === "!checkAPI") {
         const cleanTarget = target.slice(1)
@@ -32,6 +33,14 @@ function chatCommands(target, context, command, client) {
     if (command === "!whammoRoll") {
         const wham = whammo[roll].name
         client.say(target, wham)
+    }
+
+    if (command === "!he") {
+        client.say(target, asciiArt.amongus.unicode)
+    }
+
+    if (command === "!letoucan") {
+        client.say(target, asciiArt.toucan.unicode)
     }
 
     if (command === "!test") {
