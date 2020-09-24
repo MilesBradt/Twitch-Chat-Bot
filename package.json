@@ -9,6 +9,7 @@
   "author": "Miles Bradt",
   "license": "ISC",
   "dependencies": {
+    "document-ready": "^2.0.2",
     "dotenv": "^8.0.0",
     "jquery": "^3.5.1",
     "jsdom": "^16.2.2",
