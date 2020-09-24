@@ -1,16 +1,21 @@
 const tmi = require('tmi.js');
+const http = require("http");
+const fs = require('fs').promises;
+
 // const request = require("request");
 const { JSDOM } = require("jsdom");
 const { window } = new JSDOM('');
 const document = window.document;
 const $ = require("jquery")(window);
+
 const config = require('./config');
-const http = require("http");
-const fs = require('fs').promises;
-let indexFile;
+const chatCommands = require('./functions/chatCommands.js');
+const postHTML = require('./functions/postToHTML.js');
+
 const host = 'localhost';
 const port = 8000;
 
+// Figure out how to move this to another file
 fs.readFile(__dirname + "/index.html")
     .then(contents => {
         indexFile = contents;
@@ -30,9 +35,6 @@ const requestListener = function (req, res) {
 };
 
 const server = http.createServer(requestListener);
-
-const chatCommands = require('./functions/chatCommands.js');
-const postHTML = require('./functions/postToHTML.js');
 
 const password = config.O_AUTH;
 const channels = config.channels;
@@ -70,10 +72,8 @@ function onMessageHandler(target, context, msg, self) {
     const cleanTarget = target.slice(1)
     const userName = context.username
 
+    // How tf do I get this to DOM?
     console.log(cleanTarget + "'s chat - " + userName + ": " + message)
-    console.log(document)
-
-    // postHTML.postToHTML(cleanTarget, userName, message)
 
     if (isCommand === "!") {
         chatCommands.chatCommands(cleanTarget, context, message, client);
@@ -84,6 +84,9 @@ function onMessageHandler(target, context, msg, self) {
 function onConnectedHandler(addr, port) {
     console.log(`* Connected to ${addr}:${port}`);
 }
+
+
+
 
 
 
